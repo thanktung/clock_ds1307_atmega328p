@@ -1,0 +1,761 @@
+
+program.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         0000000a  00800100  000004c4  00000538  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         000004c4  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .comment      00000030  00000000  00000000  00000542  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000574  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000128  00000000  00000000  000005b4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000017eb  00000000  00000000  000006dc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000a34  00000000  00000000  00001ec7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000a92  00000000  00000000  000028fb  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000284  00000000  00000000  00003390  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000005ce  00000000  00000000  00003614  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000d49  00000000  00000000  00003be2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 000000e8  00000000  00000000  0000492b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+   8:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+   c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  10:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  14:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  18:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  1c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  20:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  24:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  28:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  2c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  30:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  34:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  38:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  3c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  40:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  44:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  48:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  4c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  50:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  54:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  58:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  5c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  60:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  64:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+
+00000074 <__do_copy_data>:
+  74:	11 e0       	ldi	r17, 0x01	; 1
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	e4 ec       	ldi	r30, 0xC4	; 196
+  7c:	f4 e0       	ldi	r31, 0x04	; 4
+  7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
+  80:	05 90       	lpm	r0, Z+
+  82:	0d 92       	st	X+, r0
+  84:	aa 30       	cpi	r26, 0x0A	; 10
+  86:	b1 07       	cpc	r27, r17
+  88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
+  8a:	0e 94 35 02 	call	0x46a	; 0x46a <main>
+  8e:	0c 94 60 02 	jmp	0x4c0	; 0x4c0 <_exit>
+
+00000092 <__bad_interrupt>:
+  92:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000096 <RTC_Init>:
+#include "DS1307_Master.h"
+
+// Initialize the DS1307 RTC
+void RTC_Init(void) {
+	I2C_Init();  // Initialize I2C communication
+  96:	0e 94 48 01 	call	0x290	; 0x290 <I2C_Init>
+  9a:	08 95       	ret
+
+0000009c <bcd_to_decimal>:
+	return bcd_to_decimal(year);  // Convert from BCD to decimal
+}
+
+// Utility functions
+uint8_t bcd_to_decimal(uint8_t bcd) {
+	return ((bcd >> 4) * 10) + (bcd & 0x0F);
+  9c:	98 2f       	mov	r25, r24
+  9e:	92 95       	swap	r25
+  a0:	9f 70       	andi	r25, 0x0F	; 15
+  a2:	99 0f       	add	r25, r25
+  a4:	29 2f       	mov	r18, r25
+  a6:	22 0f       	add	r18, r18
+  a8:	22 0f       	add	r18, r18
+  aa:	92 0f       	add	r25, r18
+  ac:	8f 70       	andi	r24, 0x0F	; 15
+}
+  ae:	89 0f       	add	r24, r25
+  b0:	08 95       	ret
+
+000000b2 <RTC_Get_Second>:
+	I2C_Write(decimal_to_bcd(year));  // Write year in BCD format
+	I2C_Stop();  // Stop I2C communication
+}
+
+// Get individual time values
+uint8_t RTC_Get_Second(void) {
+  b2:	cf 93       	push	r28
+	I2C_Start(DS1307_WRITE_ADDRESS);
+  b4:	80 ed       	ldi	r24, 0xD0	; 208
+  b6:	0e 94 51 01 	call	0x2a2	; 0x2a2 <I2C_Start>
+	I2C_Write(0x00);  // Point to the seconds register
+  ba:	80 e0       	ldi	r24, 0x00	; 0
+  bc:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <I2C_Write>
+	I2C_Repeated_Start(DS1307_READ_ADDRESS);
+  c0:	81 ed       	ldi	r24, 0xD1	; 209
+  c2:	0e 94 7e 01 	call	0x2fc	; 0x2fc <I2C_Repeated_Start>
+	uint8_t second = I2C_Read_Nack();  // Read seconds and send NACK
+  c6:	0e 94 74 01 	call	0x2e8	; 0x2e8 <I2C_Read_Nack>
+  ca:	c8 2f       	mov	r28, r24
+	I2C_Stop();
+  cc:	0e 94 62 01 	call	0x2c4	; 0x2c4 <I2C_Stop>
+	return bcd_to_decimal(second & 0x7F);  // Convert from BCD to decimal
+  d0:	8c 2f       	mov	r24, r28
+  d2:	8f 77       	andi	r24, 0x7F	; 127
+  d4:	0e 94 4e 00 	call	0x9c	; 0x9c <bcd_to_decimal>
+}
+  d8:	cf 91       	pop	r28
+  da:	08 95       	ret
+
+000000dc <RTC_Get_Minute>:
+
+uint8_t RTC_Get_Minute(void) {
+  dc:	cf 93       	push	r28
+	I2C_Start(DS1307_WRITE_ADDRESS);
+  de:	80 ed       	ldi	r24, 0xD0	; 208
+  e0:	0e 94 51 01 	call	0x2a2	; 0x2a2 <I2C_Start>
+	I2C_Write(0x01);  // Point to the minutes register
+  e4:	81 e0       	ldi	r24, 0x01	; 1
+  e6:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <I2C_Write>
+	I2C_Repeated_Start(DS1307_READ_ADDRESS);
+  ea:	81 ed       	ldi	r24, 0xD1	; 209
+  ec:	0e 94 7e 01 	call	0x2fc	; 0x2fc <I2C_Repeated_Start>
+	uint8_t minute = I2C_Read_Nack();  // Read minutes and send NACK
+  f0:	0e 94 74 01 	call	0x2e8	; 0x2e8 <I2C_Read_Nack>
+  f4:	c8 2f       	mov	r28, r24
+	I2C_Stop();
+  f6:	0e 94 62 01 	call	0x2c4	; 0x2c4 <I2C_Stop>
+	return bcd_to_decimal(minute);  // Convert from BCD to decimal
+  fa:	8c 2f       	mov	r24, r28
+  fc:	0e 94 4e 00 	call	0x9c	; 0x9c <bcd_to_decimal>
+}
+ 100:	cf 91       	pop	r28
+ 102:	08 95       	ret
+
+00000104 <RTC_Get_Hour>:
+
+uint8_t RTC_Get_Hour(void) {
+ 104:	cf 93       	push	r28
+	I2C_Start(DS1307_WRITE_ADDRESS);
+ 106:	80 ed       	ldi	r24, 0xD0	; 208
+ 108:	0e 94 51 01 	call	0x2a2	; 0x2a2 <I2C_Start>
+	I2C_Write(0x02);  // Point to the hours register
+ 10c:	82 e0       	ldi	r24, 0x02	; 2
+ 10e:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <I2C_Write>
+	I2C_Repeated_Start(DS1307_READ_ADDRESS);
+ 112:	81 ed       	ldi	r24, 0xD1	; 209
+ 114:	0e 94 7e 01 	call	0x2fc	; 0x2fc <I2C_Repeated_Start>
+	uint8_t hour = I2C_Read_Nack();  // Read hours and send NACK
+ 118:	0e 94 74 01 	call	0x2e8	; 0x2e8 <I2C_Read_Nack>
+ 11c:	c8 2f       	mov	r28, r24
+	I2C_Stop();
+ 11e:	0e 94 62 01 	call	0x2c4	; 0x2c4 <I2C_Stop>
+	return bcd_to_decimal(hour & 0x3F);  // Convert from BCD to decimal (24-hour format)
+ 122:	8c 2f       	mov	r24, r28
+ 124:	8f 73       	andi	r24, 0x3F	; 63
+ 126:	0e 94 4e 00 	call	0x9c	; 0x9c <bcd_to_decimal>
+}
+ 12a:	cf 91       	pop	r28
+ 12c:	08 95       	ret
+
+0000012e <RTC_Get_Day>:
+
+// Get individual date values
+uint8_t RTC_Get_Day(void) {
+ 12e:	cf 93       	push	r28
+	I2C_Start(DS1307_WRITE_ADDRESS);
+ 130:	80 ed       	ldi	r24, 0xD0	; 208
+ 132:	0e 94 51 01 	call	0x2a2	; 0x2a2 <I2C_Start>
+	I2C_Write(0x03);  // Point to the day register
+ 136:	83 e0       	ldi	r24, 0x03	; 3
+ 138:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <I2C_Write>
+	I2C_Repeated_Start(DS1307_READ_ADDRESS);
+ 13c:	81 ed       	ldi	r24, 0xD1	; 209
+ 13e:	0e 94 7e 01 	call	0x2fc	; 0x2fc <I2C_Repeated_Start>
+	uint8_t day = I2C_Read_Nack();  // Read day and send NACK
+ 142:	0e 94 74 01 	call	0x2e8	; 0x2e8 <I2C_Read_Nack>
+ 146:	c8 2f       	mov	r28, r24
+	I2C_Stop();
+ 148:	0e 94 62 01 	call	0x2c4	; 0x2c4 <I2C_Stop>
+	return bcd_to_decimal(day);  // Convert from BCD to decimal
+ 14c:	8c 2f       	mov	r24, r28
+ 14e:	0e 94 4e 00 	call	0x9c	; 0x9c <bcd_to_decimal>
+}
+ 152:	cf 91       	pop	r28
+ 154:	08 95       	ret
+
+00000156 <RTC_Get_Date>:
+
+uint8_t RTC_Get_Date(void) {
+ 156:	cf 93       	push	r28
+	I2C_Start(DS1307_WRITE_ADDRESS);
+ 158:	80 ed       	ldi	r24, 0xD0	; 208
+ 15a:	0e 94 51 01 	call	0x2a2	; 0x2a2 <I2C_Start>
+	I2C_Write(0x04);  // Point to the date register
+ 15e:	84 e0       	ldi	r24, 0x04	; 4
+ 160:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <I2C_Write>
+	I2C_Repeated_Start(DS1307_READ_ADDRESS);
+ 164:	81 ed       	ldi	r24, 0xD1	; 209
+ 166:	0e 94 7e 01 	call	0x2fc	; 0x2fc <I2C_Repeated_Start>
+	uint8_t date = I2C_Read_Nack();  // Read date and send NACK
+ 16a:	0e 94 74 01 	call	0x2e8	; 0x2e8 <I2C_Read_Nack>
+ 16e:	c8 2f       	mov	r28, r24
+	I2C_Stop();
+ 170:	0e 94 62 01 	call	0x2c4	; 0x2c4 <I2C_Stop>
+	return bcd_to_decimal(date);  // Convert from BCD to decimal
+ 174:	8c 2f       	mov	r24, r28
+ 176:	0e 94 4e 00 	call	0x9c	; 0x9c <bcd_to_decimal>
+}
+ 17a:	cf 91       	pop	r28
+ 17c:	08 95       	ret
+
+0000017e <RTC_Get_Month>:
+
+uint8_t RTC_Get_Month(void) {
+ 17e:	cf 93       	push	r28
+	I2C_Start(DS1307_WRITE_ADDRESS);
+ 180:	80 ed       	ldi	r24, 0xD0	; 208
+ 182:	0e 94 51 01 	call	0x2a2	; 0x2a2 <I2C_Start>
+	I2C_Write(0x05);  // Point to the month register
+ 186:	85 e0       	ldi	r24, 0x05	; 5
+ 188:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <I2C_Write>
+	I2C_Repeated_Start(DS1307_READ_ADDRESS);
+ 18c:	81 ed       	ldi	r24, 0xD1	; 209
+ 18e:	0e 94 7e 01 	call	0x2fc	; 0x2fc <I2C_Repeated_Start>
+	uint8_t month = I2C_Read_Nack();  // Read month and send NACK
+ 192:	0e 94 74 01 	call	0x2e8	; 0x2e8 <I2C_Read_Nack>
+ 196:	c8 2f       	mov	r28, r24
+	I2C_Stop();
+ 198:	0e 94 62 01 	call	0x2c4	; 0x2c4 <I2C_Stop>
+	return bcd_to_decimal(month);  // Convert from BCD to decimal
+ 19c:	8c 2f       	mov	r24, r28
+ 19e:	0e 94 4e 00 	call	0x9c	; 0x9c <bcd_to_decimal>
+}
+ 1a2:	cf 91       	pop	r28
+ 1a4:	08 95       	ret
+
+000001a6 <RTC_Get_Year>:
+
+uint8_t RTC_Get_Year(void) {
+ 1a6:	cf 93       	push	r28
+	I2C_Start(DS1307_WRITE_ADDRESS);
+ 1a8:	80 ed       	ldi	r24, 0xD0	; 208
+ 1aa:	0e 94 51 01 	call	0x2a2	; 0x2a2 <I2C_Start>
+	I2C_Write(0x06);  // Point to the year register
+ 1ae:	86 e0       	ldi	r24, 0x06	; 6
+ 1b0:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <I2C_Write>
+	I2C_Repeated_Start(DS1307_READ_ADDRESS);
+ 1b4:	81 ed       	ldi	r24, 0xD1	; 209
+ 1b6:	0e 94 7e 01 	call	0x2fc	; 0x2fc <I2C_Repeated_Start>
+	uint8_t year = I2C_Read_Nack();  // Read year and send NACK
+ 1ba:	0e 94 74 01 	call	0x2e8	; 0x2e8 <I2C_Read_Nack>
+ 1be:	c8 2f       	mov	r28, r24
+	I2C_Stop();
+ 1c0:	0e 94 62 01 	call	0x2c4	; 0x2c4 <I2C_Stop>
+	return bcd_to_decimal(year);  // Convert from BCD to decimal
+ 1c4:	8c 2f       	mov	r24, r28
+ 1c6:	0e 94 4e 00 	call	0x9c	; 0x9c <bcd_to_decimal>
+}
+ 1ca:	cf 91       	pop	r28
+ 1cc:	08 95       	ret
+
+000001ce <decimal_to_bcd>:
+uint8_t bcd_to_decimal(uint8_t bcd) {
+	return ((bcd >> 4) * 10) + (bcd & 0x0F);
+}
+
+uint8_t decimal_to_bcd(uint8_t decimal) {
+	return ((decimal / 10) << 4) | (decimal % 10);
+ 1ce:	9d ec       	ldi	r25, 0xCD	; 205
+ 1d0:	89 9f       	mul	r24, r25
+ 1d2:	91 2d       	mov	r25, r1
+ 1d4:	11 24       	eor	r1, r1
+ 1d6:	96 95       	lsr	r25
+ 1d8:	96 95       	lsr	r25
+ 1da:	96 95       	lsr	r25
+ 1dc:	20 e1       	ldi	r18, 0x10	; 16
+ 1de:	92 9f       	mul	r25, r18
+ 1e0:	a0 01       	movw	r20, r0
+ 1e2:	11 24       	eor	r1, r1
+ 1e4:	99 0f       	add	r25, r25
+ 1e6:	29 2f       	mov	r18, r25
+ 1e8:	22 0f       	add	r18, r18
+ 1ea:	22 0f       	add	r18, r18
+ 1ec:	92 0f       	add	r25, r18
+ 1ee:	89 1b       	sub	r24, r25
+}
+ 1f0:	84 2b       	or	r24, r20
+ 1f2:	08 95       	ret
+
+000001f4 <RTC_Set_Clock>:
+void RTC_Init(void) {
+	I2C_Init();  // Initialize I2C communication
+}
+
+// Set time (hour, minute, second) and format (12/24-hour)
+void RTC_Set_Clock(uint8_t hour, uint8_t minute, uint8_t second, uint8_t format) {
+ 1f4:	0f 93       	push	r16
+ 1f6:	1f 93       	push	r17
+ 1f8:	cf 93       	push	r28
+ 1fa:	df 93       	push	r29
+ 1fc:	d8 2f       	mov	r29, r24
+ 1fe:	16 2f       	mov	r17, r22
+ 200:	04 2f       	mov	r16, r20
+ 202:	c2 2f       	mov	r28, r18
+	I2C_Start(DS1307_WRITE_ADDRESS);  // Start I2C communication with DS1307
+ 204:	80 ed       	ldi	r24, 0xD0	; 208
+ 206:	0e 94 51 01 	call	0x2a2	; 0x2a2 <I2C_Start>
+	I2C_Write(0x00);  // Point to the seconds register
+ 20a:	80 e0       	ldi	r24, 0x00	; 0
+ 20c:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <I2C_Write>
+	I2C_Write(decimal_to_bcd(second));  // Write seconds in BCD format
+ 210:	80 2f       	mov	r24, r16
+ 212:	0e 94 e7 00 	call	0x1ce	; 0x1ce <decimal_to_bcd>
+ 216:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <I2C_Write>
+	I2C_Write(decimal_to_bcd(minute));  // Write minutes in BCD format
+ 21a:	81 2f       	mov	r24, r17
+ 21c:	0e 94 e7 00 	call	0x1ce	; 0x1ce <decimal_to_bcd>
+ 220:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <I2C_Write>
+	I2C_Write(decimal_to_bcd(hour) | format);  // Write hours in BCD format with format flag
+ 224:	8d 2f       	mov	r24, r29
+ 226:	0e 94 e7 00 	call	0x1ce	; 0x1ce <decimal_to_bcd>
+ 22a:	8c 2b       	or	r24, r28
+ 22c:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <I2C_Write>
+	I2C_Stop();  // Stop I2C communication
+ 230:	0e 94 62 01 	call	0x2c4	; 0x2c4 <I2C_Stop>
+}
+ 234:	df 91       	pop	r29
+ 236:	cf 91       	pop	r28
+ 238:	1f 91       	pop	r17
+ 23a:	0f 91       	pop	r16
+ 23c:	08 95       	ret
+
+0000023e <RTC_Set_Calendar>:
+
+// Set date (day, date, month, year)
+void RTC_Set_Calendar(uint8_t day, uint8_t date, uint8_t month, uint8_t year) {
+ 23e:	0f 93       	push	r16
+ 240:	1f 93       	push	r17
+ 242:	cf 93       	push	r28
+ 244:	df 93       	push	r29
+ 246:	08 2f       	mov	r16, r24
+ 248:	16 2f       	mov	r17, r22
+ 24a:	d4 2f       	mov	r29, r20
+ 24c:	c2 2f       	mov	r28, r18
+	I2C_Start(DS1307_WRITE_ADDRESS);  // Start I2C communication with DS1307
+ 24e:	80 ed       	ldi	r24, 0xD0	; 208
+ 250:	0e 94 51 01 	call	0x2a2	; 0x2a2 <I2C_Start>
+	I2C_Write(0x03);  // Point to the day register
+ 254:	83 e0       	ldi	r24, 0x03	; 3
+ 256:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <I2C_Write>
+	I2C_Write(decimal_to_bcd(day));  // Write day in BCD format
+ 25a:	80 2f       	mov	r24, r16
+ 25c:	0e 94 e7 00 	call	0x1ce	; 0x1ce <decimal_to_bcd>
+ 260:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <I2C_Write>
+	I2C_Write(decimal_to_bcd(date));  // Write date in BCD format
+ 264:	81 2f       	mov	r24, r17
+ 266:	0e 94 e7 00 	call	0x1ce	; 0x1ce <decimal_to_bcd>
+ 26a:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <I2C_Write>
+	I2C_Write(decimal_to_bcd(month));  // Write month in BCD format
+ 26e:	8d 2f       	mov	r24, r29
+ 270:	0e 94 e7 00 	call	0x1ce	; 0x1ce <decimal_to_bcd>
+ 274:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <I2C_Write>
+	I2C_Write(decimal_to_bcd(year));  // Write year in BCD format
+ 278:	8c 2f       	mov	r24, r28
+ 27a:	0e 94 e7 00 	call	0x1ce	; 0x1ce <decimal_to_bcd>
+ 27e:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <I2C_Write>
+	I2C_Stop();  // Stop I2C communication
+ 282:	0e 94 62 01 	call	0x2c4	; 0x2c4 <I2C_Stop>
+}
+ 286:	df 91       	pop	r29
+ 288:	cf 91       	pop	r28
+ 28a:	1f 91       	pop	r17
+ 28c:	0f 91       	pop	r16
+ 28e:	08 95       	ret
+
+00000290 <I2C_Init>:
+// Function to read a byte of data from the I2C bus and send an ACK to continue reading
+uint8_t I2C_Read_Ack() {
+	TWCR = (1 << TWEN) | (1 << TWINT) | (1 << TWEA); // Enable ACK for the next byte
+	while (!(TWCR & (1 << TWINT))); // Wait for the data to be received
+	return TWDR; // Return the received data
+}
+ 290:	10 92 b9 00 	sts	0x00B9, r1	; 0x8000b9 <__TEXT_REGION_LENGTH__+0x7f80b9>
+ 294:	8d ef       	ldi	r24, 0xFD	; 253
+ 296:	80 93 b8 00 	sts	0x00B8, r24	; 0x8000b8 <__TEXT_REGION_LENGTH__+0x7f80b8>
+ 29a:	84 e0       	ldi	r24, 0x04	; 4
+ 29c:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+ 2a0:	08 95       	ret
+
+000002a2 <I2C_Start>:
+ 2a2:	94 ea       	ldi	r25, 0xA4	; 164
+ 2a4:	90 93 bc 00 	sts	0x00BC, r25	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+ 2a8:	90 91 bc 00 	lds	r25, 0x00BC	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+ 2ac:	99 23       	and	r25, r25
+ 2ae:	e4 f7       	brge	.-8      	; 0x2a8 <I2C_Start+0x6>
+ 2b0:	80 93 bb 00 	sts	0x00BB, r24	; 0x8000bb <__TEXT_REGION_LENGTH__+0x7f80bb>
+ 2b4:	84 e8       	ldi	r24, 0x84	; 132
+ 2b6:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+ 2ba:	80 91 bc 00 	lds	r24, 0x00BC	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+ 2be:	88 23       	and	r24, r24
+ 2c0:	e4 f7       	brge	.-8      	; 0x2ba <I2C_Start+0x18>
+ 2c2:	08 95       	ret
+
+000002c4 <I2C_Stop>:
+ 2c4:	84 e9       	ldi	r24, 0x94	; 148
+ 2c6:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+ 2ca:	80 91 bc 00 	lds	r24, 0x00BC	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+ 2ce:	84 fd       	sbrc	r24, 4
+ 2d0:	fc cf       	rjmp	.-8      	; 0x2ca <I2C_Stop+0x6>
+ 2d2:	08 95       	ret
+
+000002d4 <I2C_Write>:
+ 2d4:	80 93 bb 00 	sts	0x00BB, r24	; 0x8000bb <__TEXT_REGION_LENGTH__+0x7f80bb>
+ 2d8:	84 e8       	ldi	r24, 0x84	; 132
+ 2da:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+ 2de:	80 91 bc 00 	lds	r24, 0x00BC	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+ 2e2:	88 23       	and	r24, r24
+ 2e4:	e4 f7       	brge	.-8      	; 0x2de <I2C_Write+0xa>
+ 2e6:	08 95       	ret
+
+000002e8 <I2C_Read_Nack>:
+
+// Function to read a byte of data from the I2C bus and send a NACK to end the reading
+uint8_t I2C_Read_Nack() {
+	TWCR = (1 << TWEN) | (1 << TWINT); // No ACK, just read the byte
+ 2e8:	84 e8       	ldi	r24, 0x84	; 132
+ 2ea:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+	while (!(TWCR & (1 << TWINT))); // Wait for the data to be received
+ 2ee:	80 91 bc 00 	lds	r24, 0x00BC	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+ 2f2:	88 23       	and	r24, r24
+ 2f4:	e4 f7       	brge	.-8      	; 0x2ee <I2C_Read_Nack+0x6>
+	return TWDR; // Return the received data
+ 2f6:	80 91 bb 00 	lds	r24, 0x00BB	; 0x8000bb <__TEXT_REGION_LENGTH__+0x7f80bb>
+}
+ 2fa:	08 95       	ret
+
+000002fc <I2C_Repeated_Start>:
+
+// Function to send a repeated start condition and address to re-initiate communication
+void I2C_Repeated_Start(uint8_t address) {
+	TWCR = (1 << TWSTA) | (1 << TWEN) | (1 << TWINT); // Send start condition
+ 2fc:	94 ea       	ldi	r25, 0xA4	; 164
+ 2fe:	90 93 bc 00 	sts	0x00BC, r25	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+	while (!(TWCR & (1 << TWINT))); // Wait for the start condition to be transmitted
+ 302:	90 91 bc 00 	lds	r25, 0x00BC	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+ 306:	99 23       	and	r25, r25
+ 308:	e4 f7       	brge	.-8      	; 0x302 <I2C_Repeated_Start+0x6>
+	TWDR = address; // Load the address into the data register
+ 30a:	80 93 bb 00 	sts	0x00BB, r24	; 0x8000bb <__TEXT_REGION_LENGTH__+0x7f80bb>
+	TWCR = (1 << TWEN) | (1 << TWINT); // Send the address to the slave
+ 30e:	84 e8       	ldi	r24, 0x84	; 132
+ 310:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+	while (!(TWCR & (1 << TWINT))); // Wait for the transmission to complete
+ 314:	80 91 bc 00 	lds	r24, 0x00BC	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+ 318:	88 23       	and	r24, r24
+ 31a:	e4 f7       	brge	.-8      	; 0x314 <I2C_Repeated_Start+0x18>
+}
+ 31c:	08 95       	ret
+
+0000031e <Led7Segment_Init>:
+void display_test(){
+	for (int i = 0; i < 8; i++) {
+		display_digit(i, 5);  // Display the number 5 on each digit
+		_delay_ms(500);  // Delay for half a second
+	}
+}
+ 31e:	8f ef       	ldi	r24, 0xFF	; 255
+ 320:	84 b9       	out	0x04, r24	; 4
+ 322:	87 b9       	out	0x07, r24	; 7
+ 324:	8a b9       	out	0x0a, r24	; 10
+ 326:	08 95       	ret
+
+00000328 <display_digit>:
+ 328:	15 b8       	out	0x05, r1	; 5
+ 32a:	18 b8       	out	0x08, r1	; 8
+ 32c:	84 30       	cpi	r24, 0x04	; 4
+ 32e:	78 f4       	brcc	.+30     	; 0x34e <display_digit+0x26>
+ 330:	45 b1       	in	r20, 0x05	; 5
+ 332:	90 e0       	ldi	r25, 0x00	; 0
+ 334:	02 96       	adiw	r24, 0x02	; 2
+ 336:	21 e0       	ldi	r18, 0x01	; 1
+ 338:	30 e0       	ldi	r19, 0x00	; 0
+ 33a:	f9 01       	movw	r30, r18
+ 33c:	02 c0       	rjmp	.+4      	; 0x342 <display_digit+0x1a>
+ 33e:	ee 0f       	add	r30, r30
+ 340:	ff 1f       	adc	r31, r31
+ 342:	8a 95       	dec	r24
+ 344:	e2 f7       	brpl	.-8      	; 0x33e <display_digit+0x16>
+ 346:	cf 01       	movw	r24, r30
+ 348:	84 2b       	or	r24, r20
+ 34a:	85 b9       	out	0x05, r24	; 5
+ 34c:	0e c0       	rjmp	.+28     	; 0x36a <display_digit+0x42>
+ 34e:	48 b1       	in	r20, 0x08	; 8
+ 350:	90 e0       	ldi	r25, 0x00	; 0
+ 352:	04 97       	sbiw	r24, 0x04	; 4
+ 354:	21 e0       	ldi	r18, 0x01	; 1
+ 356:	30 e0       	ldi	r19, 0x00	; 0
+ 358:	f9 01       	movw	r30, r18
+ 35a:	02 c0       	rjmp	.+4      	; 0x360 <display_digit+0x38>
+ 35c:	ee 0f       	add	r30, r30
+ 35e:	ff 1f       	adc	r31, r31
+ 360:	8a 95       	dec	r24
+ 362:	e2 f7       	brpl	.-8      	; 0x35c <display_digit+0x34>
+ 364:	cf 01       	movw	r24, r30
+ 366:	84 2b       	or	r24, r20
+ 368:	88 b9       	out	0x08, r24	; 8
+ 36a:	e6 2f       	mov	r30, r22
+ 36c:	f0 e0       	ldi	r31, 0x00	; 0
+ 36e:	e0 50       	subi	r30, 0x00	; 0
+ 370:	ff 4f       	sbci	r31, 0xFF	; 255
+ 372:	80 81       	ld	r24, Z
+ 374:	8b b9       	out	0x0b, r24	; 11
+ 376:	81 ee       	ldi	r24, 0xE1	; 225
+ 378:	94 e0       	ldi	r25, 0x04	; 4
+ 37a:	01 97       	sbiw	r24, 0x01	; 1
+ 37c:	f1 f7       	brne	.-4      	; 0x37a <display_digit+0x52>
+ 37e:	00 c0       	rjmp	.+0      	; 0x380 <display_digit+0x58>
+ 380:	00 00       	nop
+ 382:	08 95       	ret
+
+00000384 <display_time>:
+
+// Function to display time in HH:MM:SS format on the 7-segment display
+void display_time(uint8_t hour, uint8_t minute, uint8_t second) {
+ 384:	ff 92       	push	r15
+ 386:	0f 93       	push	r16
+ 388:	1f 93       	push	r17
+ 38a:	cf 93       	push	r28
+ 38c:	df 93       	push	r29
+ 38e:	26 2f       	mov	r18, r22
+	// Split hours, minutes, and seconds into tens and ones digits
+	uint8_t hour_tens = hour / 10;      // Tens place of hour
+ 390:	cd ec       	ldi	r28, 0xCD	; 205
+ 392:	8c 9f       	mul	r24, r28
+ 394:	91 2d       	mov	r25, r1
+ 396:	11 24       	eor	r1, r1
+ 398:	69 2f       	mov	r22, r25
+ 39a:	66 95       	lsr	r22
+ 39c:	66 95       	lsr	r22
+ 39e:	66 95       	lsr	r22
+	uint8_t hour_ones = hour % 10;      // Ones place of hour
+ 3a0:	36 2f       	mov	r19, r22
+ 3a2:	33 0f       	add	r19, r19
+ 3a4:	93 2f       	mov	r25, r19
+ 3a6:	99 0f       	add	r25, r25
+ 3a8:	99 0f       	add	r25, r25
+ 3aa:	93 0f       	add	r25, r19
+ 3ac:	f8 2e       	mov	r15, r24
+ 3ae:	f9 1a       	sub	r15, r25
+	uint8_t minute_tens = minute / 10;  // Tens place of minute
+ 3b0:	2c 9f       	mul	r18, r28
+ 3b2:	d1 2d       	mov	r29, r1
+ 3b4:	11 24       	eor	r1, r1
+ 3b6:	d6 95       	lsr	r29
+ 3b8:	d6 95       	lsr	r29
+ 3ba:	d6 95       	lsr	r29
+	uint8_t minute_ones = minute % 10;  // Ones place of minute
+ 3bc:	9d 2f       	mov	r25, r29
+ 3be:	99 0f       	add	r25, r25
+ 3c0:	89 2f       	mov	r24, r25
+ 3c2:	88 0f       	add	r24, r24
+ 3c4:	88 0f       	add	r24, r24
+ 3c6:	89 0f       	add	r24, r25
+ 3c8:	02 2f       	mov	r16, r18
+ 3ca:	08 1b       	sub	r16, r24
+	uint8_t second_tens = second / 10;  // Tens place of second
+ 3cc:	4c 9f       	mul	r20, r28
+ 3ce:	c1 2d       	mov	r28, r1
+ 3d0:	11 24       	eor	r1, r1
+ 3d2:	c6 95       	lsr	r28
+ 3d4:	c6 95       	lsr	r28
+ 3d6:	c6 95       	lsr	r28
+	uint8_t second_ones = second % 10;  // Ones place of second
+ 3d8:	9c 2f       	mov	r25, r28
+ 3da:	99 0f       	add	r25, r25
+ 3dc:	89 2f       	mov	r24, r25
+ 3de:	88 0f       	add	r24, r24
+ 3e0:	88 0f       	add	r24, r24
+ 3e2:	89 0f       	add	r24, r25
+ 3e4:	14 2f       	mov	r17, r20
+ 3e6:	18 1b       	sub	r17, r24
+
+	// Display the time on the 7-segment display (LED1 to LED6)
+	display_digit(0, hour_tens);   // LED1: Tens place of hour
+ 3e8:	80 e0       	ldi	r24, 0x00	; 0
+ 3ea:	0e 94 94 01 	call	0x328	; 0x328 <display_digit>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 3ee:	83 ed       	ldi	r24, 0xD3	; 211
+ 3f0:	90 e3       	ldi	r25, 0x30	; 48
+ 3f2:	01 97       	sbiw	r24, 0x01	; 1
+ 3f4:	f1 f7       	brne	.-4      	; 0x3f2 <display_time+0x6e>
+ 3f6:	00 c0       	rjmp	.+0      	; 0x3f8 <display_time+0x74>
+ 3f8:	00 00       	nop
+	_delay_ms(50);
+	display_digit(1, hour_ones);   // LED2: Ones place of hour
+ 3fa:	6f 2d       	mov	r22, r15
+ 3fc:	81 e0       	ldi	r24, 0x01	; 1
+ 3fe:	0e 94 94 01 	call	0x328	; 0x328 <display_digit>
+ 402:	83 ed       	ldi	r24, 0xD3	; 211
+ 404:	90 e3       	ldi	r25, 0x30	; 48
+ 406:	01 97       	sbiw	r24, 0x01	; 1
+ 408:	f1 f7       	brne	.-4      	; 0x406 <__EEPROM_REGION_LENGTH__+0x6>
+ 40a:	00 c0       	rjmp	.+0      	; 0x40c <__EEPROM_REGION_LENGTH__+0xc>
+ 40c:	00 00       	nop
+	_delay_ms(50);
+	display_digit(2, minute_tens); // LED3: Tens place of minute
+ 40e:	6d 2f       	mov	r22, r29
+ 410:	82 e0       	ldi	r24, 0x02	; 2
+ 412:	0e 94 94 01 	call	0x328	; 0x328 <display_digit>
+ 416:	83 ed       	ldi	r24, 0xD3	; 211
+ 418:	90 e3       	ldi	r25, 0x30	; 48
+ 41a:	01 97       	sbiw	r24, 0x01	; 1
+ 41c:	f1 f7       	brne	.-4      	; 0x41a <__EEPROM_REGION_LENGTH__+0x1a>
+ 41e:	00 c0       	rjmp	.+0      	; 0x420 <__EEPROM_REGION_LENGTH__+0x20>
+ 420:	00 00       	nop
+	_delay_ms(50);
+	display_digit(3, minute_ones); // LED4: Ones place of minute
+ 422:	60 2f       	mov	r22, r16
+ 424:	83 e0       	ldi	r24, 0x03	; 3
+ 426:	0e 94 94 01 	call	0x328	; 0x328 <display_digit>
+ 42a:	83 ed       	ldi	r24, 0xD3	; 211
+ 42c:	90 e3       	ldi	r25, 0x30	; 48
+ 42e:	01 97       	sbiw	r24, 0x01	; 1
+ 430:	f1 f7       	brne	.-4      	; 0x42e <__EEPROM_REGION_LENGTH__+0x2e>
+ 432:	00 c0       	rjmp	.+0      	; 0x434 <__EEPROM_REGION_LENGTH__+0x34>
+ 434:	00 00       	nop
+	_delay_ms(50);
+	display_digit(4, second_tens); // LED5: Tens place of second
+ 436:	6c 2f       	mov	r22, r28
+ 438:	84 e0       	ldi	r24, 0x04	; 4
+ 43a:	0e 94 94 01 	call	0x328	; 0x328 <display_digit>
+ 43e:	83 ed       	ldi	r24, 0xD3	; 211
+ 440:	90 e3       	ldi	r25, 0x30	; 48
+ 442:	01 97       	sbiw	r24, 0x01	; 1
+ 444:	f1 f7       	brne	.-4      	; 0x442 <__EEPROM_REGION_LENGTH__+0x42>
+ 446:	00 c0       	rjmp	.+0      	; 0x448 <__EEPROM_REGION_LENGTH__+0x48>
+ 448:	00 00       	nop
+	_delay_ms(50);
+	display_digit(5, second_ones); // LED6: Ones place of second
+ 44a:	61 2f       	mov	r22, r17
+ 44c:	85 e0       	ldi	r24, 0x05	; 5
+ 44e:	0e 94 94 01 	call	0x328	; 0x328 <display_digit>
+ 452:	83 ed       	ldi	r24, 0xD3	; 211
+ 454:	90 e3       	ldi	r25, 0x30	; 48
+ 456:	01 97       	sbiw	r24, 0x01	; 1
+ 458:	f1 f7       	brne	.-4      	; 0x456 <__EEPROM_REGION_LENGTH__+0x56>
+ 45a:	00 c0       	rjmp	.+0      	; 0x45c <__EEPROM_REGION_LENGTH__+0x5c>
+ 45c:	00 00       	nop
+	_delay_ms(50);
+}
+ 45e:	df 91       	pop	r29
+ 460:	cf 91       	pop	r28
+ 462:	1f 91       	pop	r17
+ 464:	0f 91       	pop	r16
+ 466:	ff 90       	pop	r15
+ 468:	08 95       	ret
+
+0000046a <main>:
+#include "Led7Segment.h"    // Include 7-segment display library
+#include "I2C_Master.h"     // Include I2C master communication library
+
+int main(void) {
+	// Initialize system components
+	Led7Segment_Init();  // Initialize 7-segment display
+ 46a:	0e 94 8f 01 	call	0x31e	; 0x31e <Led7Segment_Init>
+	RTC_Init();          // Initialize RTC (DS1307)
+ 46e:	0e 94 4b 00 	call	0x96	; 0x96 <RTC_Init>
+
+	// Set initial time and date on DS1307
+	RTC_Set_Clock(23, 59, 50, HOUR_FORMAT_24);  // Set time to 12:59:40 (24-hour format)
+ 472:	20 e0       	ldi	r18, 0x00	; 0
+ 474:	42 e3       	ldi	r20, 0x32	; 50
+ 476:	6b e3       	ldi	r22, 0x3B	; 59
+ 478:	87 e1       	ldi	r24, 0x17	; 23
+ 47a:	0e 94 fa 00 	call	0x1f4	; 0x1f4 <RTC_Set_Clock>
+	RTC_Set_Calendar(7, 31, 12, 22);            // Set date to 31/12/2022 (7th day of the week)
+ 47e:	26 e1       	ldi	r18, 0x16	; 22
+ 480:	4c e0       	ldi	r20, 0x0C	; 12
+ 482:	6f e1       	ldi	r22, 0x1F	; 31
+ 484:	87 e0       	ldi	r24, 0x07	; 7
+ 486:	0e 94 1f 01 	call	0x23e	; 0x23e <RTC_Set_Calendar>
+
+	while (1) {
+		// Read time from DS1307 RTC
+		uint8_t second = RTC_Get_Second();  // Get seconds
+ 48a:	0e 94 59 00 	call	0xb2	; 0xb2 <RTC_Get_Second>
+ 48e:	d8 2f       	mov	r29, r24
+		uint8_t minute = RTC_Get_Minute();  // Get minutes
+ 490:	0e 94 6e 00 	call	0xdc	; 0xdc <RTC_Get_Minute>
+ 494:	c8 2f       	mov	r28, r24
+		uint8_t hour = RTC_Get_Hour();      // Get hours
+ 496:	0e 94 82 00 	call	0x104	; 0x104 <RTC_Get_Hour>
+		
+		display_time(hour, minute, second);
+ 49a:	4d 2f       	mov	r20, r29
+ 49c:	6c 2f       	mov	r22, r28
+ 49e:	0e 94 c2 01 	call	0x384	; 0x384 <display_time>
+		
+		// Read date from DS1307 RTC
+		uint8_t day = RTC_Get_Day();        // Get day of the week
+ 4a2:	0e 94 97 00 	call	0x12e	; 0x12e <RTC_Get_Day>
+		uint8_t date = RTC_Get_Date();      // Get date (DD)
+ 4a6:	0e 94 ab 00 	call	0x156	; 0x156 <RTC_Get_Date>
+		uint8_t month = RTC_Get_Month();    // Get month (MM)
+ 4aa:	0e 94 bf 00 	call	0x17e	; 0x17e <RTC_Get_Month>
+		uint8_t year = RTC_Get_Year();      // Get year (YY)
+ 4ae:	0e 94 d3 00 	call	0x1a6	; 0x1a6 <RTC_Get_Year>
+ 4b2:	83 ec       	ldi	r24, 0xC3	; 195
+ 4b4:	99 e0       	ldi	r25, 0x09	; 9
+ 4b6:	01 97       	sbiw	r24, 0x01	; 1
+ 4b8:	f1 f7       	brne	.-4      	; 0x4b6 <main+0x4c>
+ 4ba:	00 c0       	rjmp	.+0      	; 0x4bc <main+0x52>
+ 4bc:	00 00       	nop
+ 4be:	e5 cf       	rjmp	.-54     	; 0x48a <main+0x20>
+
+000004c0 <_exit>:
+ 4c0:	f8 94       	cli
+
+000004c2 <__stop_program>:
+ 4c2:	ff cf       	rjmp	.-2      	; 0x4c2 <__stop_program>
