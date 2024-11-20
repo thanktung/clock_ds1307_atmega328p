@@ -1,4 +1,4 @@
-#define F_CPU 1000000UL
+#define F_CPU 16000000UL
 #include "I2C_Master.h"
 
 // Function to initialize the I2C peripheral

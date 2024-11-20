@@ -1,38 +1,78 @@
 #ifndef F_CPU
-#define F_CPU 1000000UL  // Define CPU frequency for delay functions
+#define F_CPU 16000000UL  
 #endif
 
 #include <avr/io.h>
 #include <util/delay.h>
-#include "DS1307_Master.h"  // Include DS1307 RTC library
-#include "Led7Segment.h"    // Include 7-segment display library
-#include "I2C_Master.h"     // Include I2C master communication library
+#include "DS1307_Master.h"  
+#include "Led7Segment.h"    
+#include "I2C_Master.h"     
+
+void button_init();
+int check_button();
 
 int main(void) {
-	// Initialize system components
-	Led7Segment_Init();  // Initialize 7-segment display
-	RTC_Init();          // Initialize RTC (DS1307)
+	
+	Led7Segment_Init();  
+	RTC_Init();          
+	button_init();       
 
-	// Set initial time and date on DS1307
-	RTC_Set_Clock(23, 59, 50, HOUR_FORMAT_24);  // Set time to 12:59:40 (24-hour format)
-	RTC_Set_Calendar(7, 31, 12, 22);            // Set date to 31/12/2022 (7th day of the week)
+	uint8_t display_mode = 0; // 0: Show time, 1: Show date
 
 	while (1) {
-		// Read time from DS1307 RTC
-		uint8_t second = RTC_Get_Second();  // Get seconds
-		uint8_t minute = RTC_Get_Minute();  // Get minutes
-		uint8_t hour = RTC_Get_Hour();      // Get hours
 		
-		display_time(hour, minute, second);
+		if (check_button0()) {
+			_delay_ms(20);  
+			display_mode = 0;  
+		}
 		
-		// Read date from DS1307 RTC
-		uint8_t day = RTC_Get_Day();        // Get day of the week
-		uint8_t date = RTC_Get_Date();      // Get date (DD)
-		uint8_t month = RTC_Get_Month();    // Get month (MM)
-		uint8_t year = RTC_Get_Year();      // Get year (YY)
+		if (check_button1()){
+			_delay_ms(20);
+			display_mode = 1;
+		}
 
-		// Display date (DD/MM/YY) on the 7-segment display
-		//display_date(date, month, year);    // Call the function to display date
-		_delay_ms(10);  // Delay to update display every 100ms
+		if (display_mode == 0) {
+			uint8_t second = RTC_Get_Second();
+			uint8_t minute = RTC_Get_Minute();
+			uint8_t hour = RTC_Get_Hour();
+			display_time(hour, minute, second);  // Display time
+			} else {
+			uint8_t date = RTC_Get_Date();
+			uint8_t month = RTC_Get_Month();
+			uint8_t year = RTC_Get_Year();
+			display_date(date, month, year);  // Display date
+		}
 	}
+}
+
+
+void button_init() {
+	DDRB &= (~(1 << PINB0)) & (~(1 << PINB1));  
+	PORTB |= (1 << PINB0) | (1 << PINB1);  
+}
+
+int check_button0() {
+	static uint8_t prev_state = 1;  // Previous PB0 state
+	uint8_t current_state = PINB & (1 << PINB0);  // Read current PB0 state
+
+	if (!current_state && prev_state) {  // Detect button press (falling edge)
+		prev_state = current_state;  // Update previous state
+		return 1;  // Button press detected
+	}
+
+	prev_state = current_state;  // Update previous state
+	return 0;  // No button press
+}
+
+int check_button1() {
+	static uint8_t prev_state = 1;  // Previous PB0 state
+	uint8_t current_state = PINB & (1 << PINB1);  // Read current PB0 state
+
+	if (!current_state && prev_state) {  // Detect button press (falling edge)
+		prev_state = current_state;  // Update previous state
+		return 1;  // Button press detected
+	}
+
+	prev_state = current_state;  // Update previous state
+	return 0;  // No button press
 }
