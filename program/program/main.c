@@ -9,11 +9,17 @@
 #include "I2C_Master.h"
 
 void button_init();
-int check_button();
-volatile uint8_t display_mode = 0; // 0: Show time, 1: Show date
+int check_button0();
+int check_button1();
+int check_setup_state();
 
-// M?ng ?? l?u tr? gi?, phút, giây, ngày, tháng, n?m, th?
-uint8_t time_data[7] = {0}; // {hour, minute, second, date, month, year, day_of_week}
+uint8_t display_mode = 0;
+uint8_t setup = 0;
+int setup_step = -1;
+
+uint8_t time_data[7] = {0};
+uint8_t time_setup[7] = {0};
+uint8_t setup_initialized = 0; // Flag to ensure setup values are copied only once
 
 int main(void) {
 	Led7Segment_Init();
@@ -21,64 +27,148 @@ int main(void) {
 	button_init();
 
 	while (1) {
-		// Ki?m tra nút b?m ?? chuy?n ??i gi?a ch? ?? hi?n th? th?i gian và ngày tháng
-		if (check_button0()) {
-			_delay_ms(20);
-			display_mode = 0; // Ch? ?? hi?n th? gi?
-		}
-		
-		if (check_button1()) {
-			_delay_ms(20);
-			display_mode = 1; // Ch? ?? hi?n th? ngày tháng
+		// Check if both buttons are pressed to enter setup mode
+		if (check_setup_state()) {
+			setup = 1; // Enter setup mode
 		}
 
-		// L?y thông tin t? RTC và l?u vào m?ng
-		time_data[0] = RTC_Get_Hour();  // L?y gi?
-		time_data[1] = RTC_Get_Minute(); // L?y phút
-		time_data[2] = RTC_Get_Second(); // L?y giây
-		time_data[3] = RTC_Get_Date();   // L?y ngày
-		time_data[4] = RTC_Get_Month();  // L?y tháng
-		time_data[5] = RTC_Get_Year();   // L?y n?m
-		time_data[6] = RTC_Get_Day(); // L?y th?
+		switch (setup) {
+			case 0: // Normal mode: Display time or date
+			if (check_button0()) {
+				_delay_ms(20);
+				display_mode = 0; // Switch to time display mode
+			}
 
-		// Hi?n th? gi? ho?c ngày tháng tùy thu?c vào display_mode
-		if (display_mode == 0) {
-			// Hi?n th? gi?, phút, giây
-			display_time(time_data[0], time_data[1], time_data[2]);
-			} else {
-			// Hi?n th? ngày, tháng, n?m
-			display_date(time_data[3], time_data[4], time_data[5]);
+			if (check_button1()) {
+				_delay_ms(20);
+				display_mode = 1; // Switch to date display mode
+			}
+
+			// Retrieve current time and date from RTC
+			time_data[0] = RTC_Get_Hour();
+			time_data[1] = RTC_Get_Minute();
+			time_data[2] = RTC_Get_Second();
+			time_data[3] = RTC_Get_Date();
+			time_data[4] = RTC_Get_Month();
+			time_data[5] = RTC_Get_Year();
+			time_data[6] = RTC_Get_Day();
+
+			if (display_mode == 0) {
+				display_time(time_data[0], time_data[1], time_data[2]); // Display time
+				} else {
+				display_date(time_data[3], time_data[4], time_data[5], time_data[6]); // Display date
+			}
+			break;
+
+			case 1: // Setup mode: Adjust time and date
+			// Copy current time and date into setup array only once
+			if (!setup_initialized) {
+				for (int i = 0; i < 7; i++) {
+					time_setup[i] = time_data[i];
+				}
+				setup_initialized = 1; // Ensure this happens only once
+			}
+
+			// Move to the next setup step
+			if (check_button1()) {
+				_delay_ms(20);
+				setup_step++;
+			}
+
+			// Increment the value for the current setup step
+			if (check_button0()) {
+				switch (setup_step) {
+					case 0: // Hour
+					time_setup[0]++;
+					if (time_setup[0] > 23) time_setup[0] = 0; // Limit to 0-23
+					break;
+					case 1: // Minute
+					time_setup[1]++;
+					if (time_setup[1] > 59) time_setup[1] = 0; // Limit to 0-59
+					break;
+					case 2: // Second
+					time_setup[2]++;
+					if (time_setup[2] > 59) time_setup[2] = 0; // Limit to 0-59
+					break;
+					case 3: // Day
+					time_setup[3]++;
+					if (time_setup[3] > 31) time_setup[3] = 1; // Limit to 1-31 (basic check, no month-specific validation)
+					break;
+					case 4: // Month
+					time_setup[4]++;
+					if (time_setup[4] > 12) time_setup[4] = 1; // Limit to 1-12
+					break;
+					case 5: // Year
+					time_setup[5]++;
+					if (time_setup[5] > 99) time_setup[5] = 0; // Limit to 0-99
+					break;
+					case 6: // Day of the week
+					time_setup[6]++;
+					if (time_setup[6] > 7) time_setup[6] = 1; // Limit to 1-7
+					break;
+				}
+			}
+
+			// Exit setup mode and send new time to RTC
+			if (setup_step > 6) {
+				setup = 0; // Exit setup mode
+				setup_step = -1;
+				setup_initialized = 0; // Reset flag for the next setup
+				// Update RTC with new time and date
+				RTC_Set_Clock(time_setup[0], time_setup[1], time_setup[2], HOUR_FORMAT_24);
+				RTC_Set_Calendar(time_setup[6], time_setup[3], time_setup[4], time_setup[5]);
+			}
+
+			// Display the setup values
+			if (setup_step < 3) {
+				display_time(time_setup[0], time_setup[1], time_setup[2]); // Display time during setup
+				} else {
+				display_date(time_setup[3], time_setup[4], time_setup[5], time_setup[6]); // Display date during setup
+			}
+			break;
 		}
 	}
 }
 
 void button_init() {
-	DDRB &= (~(1 << PINB0)) & (~(1 << PINB1));
-	PORTB |= (1 << PINB0) | (1 << PINB1);
+	DDRB &= (~(1 << PINB0)) & (~(1 << PINB1)); // Set PB0 and PB1 as input
+	PORTB |= (1 << PINB0) | (1 << PINB1); // Enable pull-up resistors on PB0 and PB1
 }
 
 int check_button0() {
-	static uint8_t prev_state = 1;  // Previous PB0 state
-	uint8_t current_state = PINB & (1 << PINB0);  // Read current PB0 state
+	static uint8_t prev_state = 1;
+	uint8_t current_state = PINB & (1 << PINB0);
 
-	if (!current_state && prev_state) {  // Detect button press (falling edge)
-		prev_state = current_state;  // Update previous state
-		return 1;  // Button press detected
+	if (!current_state && prev_state) { // Detect falling edge
+		prev_state = current_state;
+		return 1;
 	}
 
-	prev_state = current_state;  // Update previous state
-	return 0;  // No button press
+	prev_state = current_state;
+	return 0;
 }
 
 int check_button1() {
-	static uint8_t prev_state = 1;  // Previous PB1 state
-	uint8_t current_state = PINB & (1 << PINB1);  // Read current PB1 state
+	static uint8_t prev_state = 1;
+	uint8_t current_state = PINB & (1 << PINB1);
 
-	if (!current_state && prev_state) {  // Detect button press (falling edge)
-		prev_state = current_state;  // Update previous state
-		return 1;  // Button press detected
+	if (!current_state && prev_state) { // Detect falling edge
+		prev_state = current_state;
+		return 1;
 	}
 
-	prev_state = current_state;  // Update previous state
-	return 0;  // No button press
+	prev_state = current_state;
+	return 0;
+}
+
+int check_setup_state() {
+	// Check if both PB0 and PB1 are pressed simultaneously
+	uint8_t current_state_0 = PINB & (1 << PINB0);
+	uint8_t current_state_1 = PINB & (1 << PINB1);
+
+	// Return 1 if both buttons are pressed (falling edge)
+	if (!current_state_0 && !current_state_1) {
+		return 1;
+	}
+	return 0;
 }

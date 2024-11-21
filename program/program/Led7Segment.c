@@ -25,7 +25,7 @@ void display_digit(uint8_t digit, uint8_t value) {
 
 	// Display the corresponding segment pattern for the number
 	PORTD = segment_codes[value];
-	if (digit == 1 | digit == 3 | digit == 5 | digit == 7){
+	if (digit == 1 || digit == 3 || digit == 5 || digit == 7){
 		PORTD |= (1 << PIND7);
 	} else PORTD &= (~(1 << PIND7));
 	//_delay_ms(5);  // Small delay to make the digit clearly visible
@@ -66,7 +66,7 @@ void display_time(uint8_t hour, uint8_t minute, uint8_t second) {
 }
 
 // Function to display the date in DD/MM/YYYY format on the 7-segment display
-void display_date(uint8_t date, uint8_t month, uint8_t year) {
+void display_date(uint8_t date, uint8_t month, uint8_t year, uint8_t day_of_week) {
 	// Split the date, month, and year into tens and ones digits
 	uint8_t date_tens = date / 10;      // Tens place of date
 	uint8_t date_ones = date % 10;      // Ones place of date
@@ -74,6 +74,7 @@ void display_date(uint8_t date, uint8_t month, uint8_t year) {
 	uint8_t month_ones = month % 10;    // Ones place of month
 	uint8_t year_tens = year / 10;      // Tens place of year
 	uint8_t year_ones = year % 10;      // Ones place of year
+
 
 	// Display the date, month, and year on the 7-segment display (LED1 to LED6)
 	display_digit(0, date_tens);        // LED1: Tens place of date
@@ -87,5 +88,7 @@ void display_date(uint8_t date, uint8_t month, uint8_t year) {
 	display_digit(4, year_tens);        // LED5: Tens place of year
 	_delay_ms(40);
 	display_digit(5, year_ones);        // LED6: Ones place of year
+	_delay_ms(40);
+	display_digit(7, day_of_week);
 	_delay_ms(40);
 }
