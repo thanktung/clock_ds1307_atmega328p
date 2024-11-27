@@ -120,11 +120,33 @@ int main(void) {
 			}
 
 			// Display the setup values
-			if (setup_step < 3) {
-				display_time(time_setup[0], time_setup[1], time_setup[2]); // Display time during setup
-				} else {
-				display_date(time_setup[3], time_setup[4], time_setup[5], time_setup[6]); // Display date during setup
+			switch (setup_step) {
+				case 0:
+				display_hour(time_setup[0]); // Display hour during setup
+				break;
+				case 1:
+				display_minute(time_setup[1]); // Display minute during setup
+				break;
+				case 2:
+				display_second(time_setup[2]); // Display second during setup
+				break;
+				case 3:
+				display_day(time_setup[3]); // Display day during setup
+				break;
+				case 4:
+				display_month(time_setup[4]); // Display month during setup
+				break;
+				case 5:
+				display_year(time_setup[5]); // Display year during setup
+				break;
+				case 6:
+				display_dayofweek(time_setup[6]); // Display day of the week during setup
+				break;
+				default:
+				// Optional: Handle invalid step case
+				break;
 			}
+			
 			break;
 		}
 	}
