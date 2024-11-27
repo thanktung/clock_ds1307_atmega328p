@@ -36,13 +36,10 @@ int main(void) {
 			case 0: // Normal mode: Display time or date
 			if (check_button0()) {
 				_delay_ms(20);
-				display_mode = 0; // Switch to time display mode
+				display_mode = !display_mode; // Switch to time display mode
 			}
 
-			if (check_button1()) {
-				_delay_ms(20);
-				display_mode = 1; // Switch to date display mode
-			}
+
 
 			// Retrieve current time and date from RTC
 			time_data[0] = RTC_Get_Hour();
