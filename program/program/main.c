@@ -11,11 +11,11 @@
 void button_init();
 int check_button0();
 int check_button1();
-int check_setup_state();
-int check_alarm_state();
+int check_button2();
+int check_button3();
 
 uint8_t display_mode = 0;
-uint8_t setup = 0;
+uint8_t program_mode = 0;
 int setup_step = -1;
 
 uint8_t alarm = 0;
@@ -40,29 +40,27 @@ void reset_alarm() {
 int main(void) {
 	Led7Segment_Init();
 	RTC_Init();
-	button_init();
+	button_init(); 	
 
 	while (1) {
-		// Switch to setup mode or alarm mode
-		if (check_setup_state()) {
-			setup = 1;  // Enter setup mode
-			reset_setup();
-		}
-
-		if (check_alarm_state()) {
-			setup = 2;  // Enter alarm mode
-			reset_alarm();
-		}
-
-		switch (setup) {
-			case 0:  // Normal mode
-			if (check_button0()) {
-				_delay_ms(20);
-				display_mode = 0;  // Display time
+	
+		
+		if (check_button2()) {
+			program_mode = (program_mode + 1) % 3; 
+			if (program_mode == 1) {
+				reset_setup(); 
+				} else if (program_mode == 2) {
+				reset_alarm(); 
 			}
+		}
+		
+///////////////////////////////////////////////////////////////////////////////////////////////////
+		switch (program_mode) {
+			////////////////////////////////////////////////////////////////////////////////////
+			case 0:  // Normal mode
 			if (check_button1()) {
 				_delay_ms(20);
-				display_mode = 1;  // Display date
+				display_mode = (display_mode+1) % 2;  
 			}
 
 			// Retrieve time data from RTC
@@ -75,13 +73,16 @@ int main(void) {
 			time_data[6] = RTC_Get_Day();
 
 			if (display_mode == 0) {
-				display_time(time_data[0], time_data[1], time_data[2]);
+				display_time(time_data[0], time_data[1], time_data[2]);  
+				 
 				} else {
 				display_date(time_data[3], time_data[4], time_data[5], time_data[6]);
+
 			}
 
 			break;
-
+			//////////////////////////////////////////////////////////////////////////////////////////
+			
 			case 1:  // Setup mode
 			if (!setup_initialized) {
 				for (int i = 0; i < 7; i++) {
@@ -94,7 +95,7 @@ int main(void) {
 				_delay_ms(20);
 				setup_step++;
 				if (setup_step > 6) {
-					setup = 0;  // Exit setup mode
+					program_mode = 0;  // Exit setup mode
 					reset_setup();
 					// Update RTC
 					RTC_Set_Clock(time_setup[0], time_setup[1], time_setup[2], HOUR_FORMAT_24);
@@ -125,7 +126,8 @@ int main(void) {
 				case 6: display_dayofweek(time_setup[6]); break;
 			}
 			break;
-
+			//////////////////////////////////////////////////////////////////////////////////////////////
+			
 			case 2:  // Alarm mode
 			if (check_button1()) {
 				_delay_ms(20);
@@ -152,7 +154,13 @@ int main(void) {
 					_delay_ms(100);
 				}
 			}
+			
+			if (check_button3()){
+				 program_mode = 0;
+				 reset_alarm();
+			}
 			break;
+			//////////////////////////////////////////////////////////////////////////////////////////////
 		}
 	}
 }
@@ -186,10 +194,10 @@ int check_button1() {
 	return 0;
 }
 
-int check_setup_state() {
+int check_button2() {
 	return (!(PINB & (1 << PINB0)) && check_button1());  // Hold B0 and B1
 }
 
-int check_alarm_state() {
+int check_button3() {
 	return (!(PINB & (1 << PINB1)) && check_button0());  // Hold B1 and B0
 }
