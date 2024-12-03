@@ -1,9 +1,9 @@
 1. Simulation: Proteus (8.13)
 2. Code: Atmel Studio
 
-Cách dùng hệ thống:
-1. Mặc định hiển thị giờ ở định dạng 24h: HH.MM.SS.xx
-2. Mặc định hiển thì ngày ở định dạng: DD.MM.YY.x.W
-3. Ấn nút 0 và 1 để hiển thị giờ hoặc ngày
-4.	 Ấn 2 nút 0 và 1 cùng 1 lúc để vào chế độ setup
-5. Khi vào chế độ setup, ấn nút 1 để đổi biến muốn thay đổi (giờ - phút - giây - ngày - tháng - năm - ngày trong tuần), ấn nút 0 để thay đổi giá trị của biến đã chọn, khi thiếp lập xong biến [ngày trong tuần] thì thoát chế độ setup và dữ liệu setup gửi đến module DS1307.
+Cách dùng hệ thống (3/12/2024):
+1. Hệ thống có 3 mode tương ứng 3 case: 0=clock; 1=setup; 2=alarm
+2. Chuyển case: GIỮ PB0 (nút trái) và ẤN PB1 (nút phải) để chuyển 
+3. Ở case 0: ẤN PB1 (nút phải) để chuyển hiển thị ngày/giờ
+4. Ở case 1: ẤN PB1 để chuyển các thành phần thiết lập theo thứ tự: giờ-phút-giây-ngày-tháng-năm-ngày trong tuần (hiển thị từng thành phần để thiết lập). ẤN PB0 để tăng giá trị thiết lập. Khi thiết lập xong 7 thành phần ấn tiếp PB1 sẽ lưu và trở về case0.
+5. Ở case 2: ẤN PB1 để chuyển các thành phần thiết lập theo thự tự: giờ-phút (hiển thị từng thành phần để thiết lập). Khi thiết lập xong sẽ hiển thị cả giờ-phút, lúc này là đang đợi báo thức, khi đến lúc báo thức led sẽ nháy số 8 liên tục. ẤN PB1 để dừng lại hoặc ấn reset trên arduino để về ban đầu.
