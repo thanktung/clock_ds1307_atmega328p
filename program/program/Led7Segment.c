@@ -92,3 +92,69 @@ void display_date(uint8_t date, uint8_t month, uint8_t year, uint8_t day_of_week
 	display_digit(7, day_of_week);
 	_delay_ms(40);
 }
+
+void display_alarm(uint8_t hour, uint8_t minute) {
+	// Split hours, minutes, and seconds into tens and ones digits
+	uint8_t hour_tens = hour / 10;      // Tens place of hour
+	uint8_t hour_ones = hour % 10;      // Ones place of hour
+	uint8_t minute_tens = minute / 10;  // Tens place of minute
+	uint8_t minute_ones = minute % 10;  // Ones place of minute
+
+	// Display the time on the 7-segment display (LED1 to LED6)
+	display_digit(0, hour_tens);   // LED1: Tens place of hour
+	_delay_ms(40);
+	display_digit(1, hour_ones);   // LED2: Ones place of hour
+	_delay_ms(40);
+	display_digit(2, minute_tens); // LED3: Tens place of minute
+	_delay_ms(40);
+	display_digit(3, minute_ones); // LED4: Ones place of minute
+	_delay_ms(40);
+}
+
+
+void display_hour(uint8_t hour) {
+	display_digit(0, hour / 10); // LED1 hi?n th? hàng ch?c gi?
+	_delay_ms(40);
+	display_digit(1, hour % 10); // LED2 hi?n th? hàng ??n v? gi?
+	_delay_ms(40);
+}
+
+void display_minute(uint8_t minute) {
+	display_digit(2, minute / 10); // LED3 hi?n th? hàng ch?c phút
+	_delay_ms(40);
+	display_digit(3, minute % 10); // LED4 hi?n th? hàng ??n v? phút
+	_delay_ms(40);
+}
+
+void display_second(uint8_t second) {
+	display_digit(4, second / 10); // LED5 hi?n th? hàng ch?c giây
+	_delay_ms(40);
+	display_digit(5, second % 10); // LED6 hi?n th? hàng ??n v? giây
+	_delay_ms(40);
+}
+
+void display_day(uint8_t date) {
+	display_digit(0, date / 10); // LED1 hi?n th? hàng ch?c ngày
+	_delay_ms(40);
+	display_digit(1, date % 10); // LED2 hi?n th? hàng ??n v? ngày
+	_delay_ms(40);
+}
+
+void display_month(uint8_t month) {
+	display_digit(2, month / 10); // LED3 hi?n th? hàng ch?c tháng
+	_delay_ms(40);
+	display_digit(3, month % 10); // LED4 hi?n th? hàng ??n v? tháng
+	_delay_ms(40);
+}
+
+void display_year(uint8_t year) {
+	display_digit(4, year / 10); // LED5 hi?n th? hàng ch?c n?m
+	_delay_ms(40);
+	display_digit(5, year % 10); // LED6 hi?n th? hàng ??n v? n?m
+	_delay_ms(40);
+}
+
+void display_dayofweek(uint8_t day_of_week) {
+	display_digit(7, day_of_week); // LED8 hi?n th? th? trong tu?n
+	_delay_ms(40);
+}

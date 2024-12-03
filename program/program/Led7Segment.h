@@ -17,5 +17,14 @@ void display_test();
 
 void display_time(uint8_t hour, uint8_t minute, uint8_t second);
 void display_date(uint8_t date, uint8_t month, uint8_t year, uint8_t day_of_week);
+void display_alarm(uint8_t hour, uint8_t minute);
+
+void display_hour(uint8_t hour);
+void display_minute(uint8_t minute);
+void display_second(uint8_t second);
+void display_day(uint8_t date);
+void display_month(uint8_t month);
+void display_year(uint8_t year);
+void display_dayofweek(uint8_t day_of_week);
 
 #endif // LED7SEGMENT_H
